@@ -3182,6 +3182,7 @@ unsigned unpack_lzh(unsigned char *src, unsigned size, unsigned char *buf)
 //--------------------------------------------------------------------------
 
 #define VOLUME_NUMBER 254
+#define VOLUME_NUMBER_1 253
 
 #define TRACKS 35
 #define SECTORS 16
@@ -3312,7 +3313,7 @@ static void write_data_field(uint8_t *page)
 	write_byte(0xEB);
 }
 
-int dsk2nib(const char *name, fileTYPE *f)
+int dsk2nib(const char *name, fileTYPE *f, int index)
 {
 	int len = strlen(name);
 	int po = 0;
@@ -3362,7 +3363,7 @@ int dsk2nib(const char *name, fileTYPE *f)
 			int sec = po ? Logical_Sector_po[sector] : sector;
 
 			write_sync(38);    /* Inter-sector gap */
-			write_address_field(VOLUME_NUMBER, track, sector);
+			write_address_field(index ? VOLUME_NUMBER_1 : VOLUME_NUMBER, track, sector);
 			write_sync(8);
 			write_data_field(dos_track + Logical_Sector[sec] * SECTOR_SIZE);
 		}

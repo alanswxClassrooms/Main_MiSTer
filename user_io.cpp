@@ -1708,9 +1708,11 @@ int user_io_file_mount(const char *name, unsigned char index, char pre, int pre_
 
 	if (len)
 	{
-		if (!strcasecmp(user_io_get_core_name(), "apple-ii"))
+		if (!strcasecmp(user_io_get_core_name(), "apple-ii") || !strcasecmp(user_io_get_core_name(), "tk2000"))
 		{
-			ret = dsk2nib(name, sd_image + index);
+			fprintf(stderr,"user_io_file_mount [%s] index [%d] pre [%c] pre_size [%d] sd_image [-]\n",
+					name,index,pre,pre_size);
+			ret = dsk2nib(name, sd_image + index,index);
 		}
 
 		if (!ret)
